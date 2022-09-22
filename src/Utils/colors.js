@@ -6,4 +6,5 @@ export const colors = {
   YELLOW_COLOR: "#FFC30B",
   WHITE_COLOR: "#FFFFFF",
   BLACK_COLOR: "#000000",
+  ORANGE_COLOR: "orange",
 };

@@ -1,37 +1,22 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  Animated,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import _ from "lodash";
 import { colors } from "../../Utils/colors";
+import LudoCoins from "../Reused/LudoCoins";
+import { Icon } from "react-native-elements";
+import Space from "../Reused/Space";
+import Grid from "../Reused/Grid";
 
-const Dashboard = () => {
+const Dashboard = ({ navigation }) => {
   return (
     <View style={styles.ludoScreen}>
-      <View style={styles.ludoTextContainer}>
-        <Animated.View>
-          <Text style={[styles.ludoText, { color: colors.BLUE_COLOR }]}>
-            L&nbsp;
-          </Text>
-        </Animated.View>
-        <Animated.View>
-          <Text style={[styles.ludoText, { color: "#FFC30B" }]}>U&nbsp;</Text>
-        </Animated.View>
-        <Animated.View>
-          <Text style={[styles.ludoText, { color: colors.RED_COLOR }]}>
-            D&nbsp;
-          </Text>
-        </Animated.View>
-        <Animated.View>
-          <Text style={[styles.ludoText, { color: colors.GREEN_COLOR }]}>
-            O
-          </Text>
-        </Animated.View>
-      </View>
+      {/* <LudoHeader /> */}
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.arrowLeft}
+      >
+        <Icon name="arrow-left" color="#FFFFFF" type="feather" />
+      </TouchableOpacity>
       <View style={styles.upperLudoContainer}>
         <LudoBoxes
           color={colors.GREEN_COLOR}
@@ -42,13 +27,18 @@ const Dashboard = () => {
         <LudoBoxes
           color={colors.BLUE_COLOR}
           index="2"
+          boxType="topCenter"
+          style={styles.ludoBoxesDemo}
+        />
+        <LudoBoxes
+          color={colors.BLUE_COLOR}
+          index="2"
           boxType="topRight"
           style={styles.ludoBoxes2}
         />
       </View>
       {/* <LudoBoxes index="3" boxType="left" style={styles.ludoPathway1} /> */}
       <LudoBoxes index="3" boxType="middle" style={styles.ludoBoxes3} />
-      {/* <LudoPathWay style={styles.ludoPathway1} /> */}
       {/* <LudoBoxes index="3" boxType="right" style={styles.ludoPathway2} /> */}
       <LudoBoxes
         color={colors.RED_COLOR}
@@ -71,12 +61,64 @@ const LudoBoxes = (props) => {
 
   return (
     <View style={[styles.ludoBoxes, style]}>
+      {/* {boxType === "topCenter" && (
+        <View style={{ position: "absolute", bottom: 120, left: 0, right: 0 }}>
+          <Grid direction="row" justify="center">
+            <LudoHorizontalBoxes type={boxType} count={3} />
+          </Grid>
+          <Grid direction="row" justify="center">
+            <LudoHorizontalBoxes type={boxType} count={3} />
+          </Grid>
+          <Grid direction="row" justify="center">
+            <LudoHorizontalBoxes type={boxType} count={3} />
+          </Grid>
+          <Grid direction="row" justify="center">
+            <LudoHorizontalBoxes type={boxType} count={3} />
+          </Grid>
+          <Grid direction="row" justify="center">
+            <LudoHorizontalBoxes type={boxType} count={3} />
+          </Grid>
+          <Grid direction="row" justify="center">
+            <LudoHorizontalBoxes type={boxType} count={3} />
+          </Grid>
+          <Grid direction="row" justify="center">
+            <LudoHorizontalBoxes type={boxType} count={3} />
+          </Grid>
+          <Grid direction="row" justify="center">
+            <LudoHorizontalBoxes type={boxType} count={3} />
+          </Grid>
+        </View>
+      )} */}
       <View style={styles.ludoBoxesLineContainer}>
         <LudoBoxRowColumns type={"top"} boxType={boxType} color={color} />
         <LudoBoxRowColumns type="center" boxType={boxType} color={color} />
         {boxType === "middle" && <LudoSpinContainer color={color} />}
         <LudoBoxRowColumns type="center" boxType={boxType} color={color} />
         <LudoBoxRowColumns type="bottom" boxType={boxType} color={color} />
+        {boxType === "topCenter" &&
+          boxType !== "bottomRight" &&
+          boxType !== "bottomLeft" && (
+            <View>
+              <Grid direction="row" justify="center">
+                <LudoHorizontalBoxes type={boxType} count={3} />
+              </Grid>
+              <Grid direction="row" justify="center">
+                <LudoHorizontalBoxes type={boxType} count={3} />
+              </Grid>
+              <Grid direction="row" justify="center">
+                <LudoHorizontalBoxes type={boxType} count={3} />
+              </Grid>
+              <Grid direction="row" justify="center">
+                <LudoHorizontalBoxes type={boxType} count={3} />
+              </Grid>
+              <Grid direction="row" justify="center">
+                <LudoHorizontalBoxes type={boxType} count={3} />
+              </Grid>
+              <Grid direction="row" justify="center">
+                <LudoHorizontalBoxes type={boxType} count={3} />
+              </Grid>
+            </View>
+          )}
       </View>
     </View>
   );
@@ -106,50 +148,54 @@ const LudoBoxRowColumns = (props) => {
           },
         ]}
       />
-      <View
-        style={[
-          styles.ludoBoxRows,
-          type === "center" && styles.ludoBoxRowsCenter,
-          boxType === "middle" &&
-            type === "center" &&
-            styles.ludoBoxSpinContainer,
-          type !== "center" && {
-            backgroundColor:
-              type === "bottom" && boxType === "middle"
-                ? colors.RED_COLOR
-                : type !== "top-middle" && boxType === "middle"
-                ? colors.BLUE_COLOR
-                : color,
-          },
-        ]}
-      >
-        {type === "center" &&
-          boxType !== "middle" &&
-          boxType !== "left" &&
-          boxType !== "right" && <LudoCoins color={color} />}
-      </View>
-      <View
-        style={[
-          styles.ludoBoxRows,
-          type === "center" && styles.ludoBoxRowsCenter,
-          boxType === "middle" &&
-            type === "center" &&
-            styles.ludoBoxSpinContainer,
-          type !== "center" && {
-            backgroundColor:
-              type === "bottom" && boxType === "middle"
-                ? colors.RED_COLOR
-                : type !== "top-middle" && boxType === "middle"
-                ? colors.BLUE_COLOR
-                : color,
-          },
-        ]}
-      >
-        {type === "center" &&
-          boxType !== "middle" &&
-          boxType !== "left" &&
-          boxType !== "right" && <LudoCoins color={color} />}
-      </View>
+      <TouchableOpacity>
+        <View
+          style={[
+            styles.ludoBoxRows,
+            type === "center" && styles.ludoBoxRowsCenter,
+            boxType === "middle" &&
+              type === "center" &&
+              styles.ludoBoxSpinContainer,
+            type !== "center" && {
+              backgroundColor:
+                type === "bottom" && boxType === "middle"
+                  ? colors.RED_COLOR
+                  : type !== "top-middle" && boxType === "middle"
+                  ? colors.BLUE_COLOR
+                  : color,
+            },
+          ]}
+        >
+          {type === "center" &&
+            boxType !== "middle" &&
+            boxType !== "left" &&
+            boxType !== "right" && <LudoCoins color={color} />}
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <View
+          style={[
+            styles.ludoBoxRows,
+            type === "center" && styles.ludoBoxRowsCenter,
+            boxType === "middle" &&
+              type === "center" &&
+              styles.ludoBoxSpinContainer,
+            type !== "center" && {
+              backgroundColor:
+                type === "bottom" && boxType === "middle"
+                  ? colors.RED_COLOR
+                  : type !== "top-middle" && boxType === "middle"
+                  ? colors.BLUE_COLOR
+                  : color,
+            },
+          ]}
+        >
+          {type === "center" &&
+            boxType !== "middle" &&
+            boxType !== "left" &&
+            boxType !== "right" && <LudoCoins color={color} />}
+        </View>
+      </TouchableOpacity>
       <View
         style={[
           styles.ludoBoxRows,
@@ -163,10 +209,136 @@ const LudoBoxRowColumns = (props) => {
   );
 };
 
-const LudoPathWay = (props) => {
-  const { style } = props;
+const LudoHorizontalBoxes = (props) => {
+  const { type, count } = props;
+  const BoxArray = [];
 
-  return <LudoBoxRowColumns direction="vertical" style={style} />;
+  for (let i = 0; i < count ? count : 0; i++) {
+    BoxArray.push(i);
+  }
+
+  return (
+    <Grid direction="row">
+      {BoxArray.map((box, index) => {
+        return (
+          <LudoBox
+            count={count}
+            type={type}
+            index={index}
+            direction={"horizontal"}
+          />
+        );
+      })}
+    </Grid>
+  );
+};
+
+const LudoVerticalBoxes = (props) => {
+  const { type, count } = props;
+  const BoxArray = [];
+
+  for (let i = 0; i < count ? count : 0; i++) {
+    BoxArray.push(i);
+  }
+
+  return (
+    <Grid direction="column">
+      {BoxArray.map((box, index) => {
+        return (
+          <LudoBox
+            count={count}
+            type={type}
+            index={index}
+            direction={"vertical"}
+          />
+        );
+      })}
+    </Grid>
+  );
+};
+
+const LudoBox = (props) => {
+  const { type, direction, index, count } = props;
+
+  return (
+    <View
+      key={index}
+      style={{
+        width: index > 0 ? 32 : 30,
+        height: 30,
+        borderWidth: 4,
+        // borderLeftWidth: 4,
+        borderStyle: "solid",
+        borderColor: colors.BLACK_COLOR,
+        borderRightWidth:
+          direction === "horizontal" ? (index < count - 1 ? 0 : 4) : 4,
+        borderTopWidth: type === "topRight" || type === "topLeft" ? 0 : 4,
+        borderBottomWidth:
+          type === "bottomRight" || type === "bottomLeft" ? 0 : 4,
+      }}
+    />
+  );
+};
+
+const LudoPathWay = (props) => {
+  const { direction, count, type } = props;
+
+  return (
+    <Grid direction={direction === "horizontal" ? "row" : "column"}>
+      <View
+        style={{
+          width: 30,
+          height: 30,
+          borderWidth: 4,
+          borderStyle: "solid",
+          borderColor: colors.BLACK_COLOR,
+          borderRightWidth: direction === "horizontal" ? 0 : 4,
+          borderTopWidth: type === "topRight" || type === "topLeft" ? 0 : 4,
+          borderBottomWidth:
+            type === "bottomRight" || type === "bottomLeft" ? 0 : 4,
+        }}
+      />
+      <View
+        style={{
+          width: 30,
+          height: 30,
+          borderWidth: 4,
+          borderStyle: "solid",
+          borderColor: colors.BLACK_COLOR,
+          borderRightWidth: direction === "horizontal" ? 0 : 4,
+          borderTopWidth: type === "topRight" || type === "topLeft" ? 0 : 4,
+          borderBottomWidth:
+            type === "bottomRight" || type === "bottomLeft" ? 0 : 4,
+        }}
+      />
+      <View
+        style={{
+          width: 30,
+          height: 30,
+          borderWidth: 4,
+          borderStyle: "solid",
+          borderColor: colors.BLACK_COLOR,
+          borderRightWidth: direction === "horizontal" ? 0 : 4,
+          borderTopWidth: type === "topRight" || type === "topLeft" ? 0 : 4,
+          borderBottomWidth:
+            type === "bottomRight" || type === "bottomLeft" ? 0 : 4,
+        }}
+      />
+      <View
+        style={{
+          width: 30,
+          height: 30,
+          borderWidth: 4,
+          borderStyle: "solid",
+          borderColor: colors.BLACK_COLOR,
+          borderRightWidth: 4,
+          borderTopWidth: type === "topRight" || type === "topLeft" ? 0 : 4,
+          borderBottomWidth:
+            type === "bottomRight" || type === "bottomLeft" ? 0 : 4,
+        }}
+      />
+    </Grid>
+  );
 };
 
 const LudoSpinContainer = () => {
@@ -189,7 +361,6 @@ const LudoSpinContainer = () => {
   };
 
   const checkCurrentTurn = (currentSpin, worstSpin) => {
-    console.log({ worstSpin });
     if (currentSpin === 6 && previousToss === 6 && worstSpin === 3) {
       console.log("Worst Case");
       setWorstToss(0);
@@ -319,34 +490,34 @@ const LudoDot = (props) => {
   );
 };
 
-const LudoCoins = (props) => {
-  const { color } = props;
-  return (
-    <View style={{ position: "relative" }}>
-      <View style={[styles.ludoCoins, { backgroundColor: color }]}>
-        <View style={[styles.ludoCoinInnerDot, styles.ludoCoinInnerDot1]} />
-        <View style={[styles.ludoCoinInnerDot, styles.ludoCoinInnerDot2]} />
-        <View
-          style={{
-            width: "100%",
-            height: 2,
-            backgroundColor: colors.BLACK_COLOR,
-          }}
-        />
-      </View>
-      <View
-        style={{
-          width: "80%",
-          height: 2,
-          backgroundColor: colors.BLACK_COLOR,
-          position: "absolute",
-          bottom: 0,
-          right: -3,
-        }}
-      />
-    </View>
-  );
-};
+// const LudoCoins = (props) => {
+//   const { color } = props;
+//   return (
+//     <View style={{ position: "relative" }}>
+//       <View style={[styles.ludoCoins, { backgroundColor: color }]}>
+//         <View style={[styles.ludoCoinInnerDot, styles.ludoCoinInnerDot1]} />
+//         <View style={[styles.ludoCoinInnerDot, styles.ludoCoinInnerDot2]} />
+//         <View
+//           style={{
+//             width: "100%",
+//             height: 2,
+//             backgroundColor: colors.BLACK_COLOR,
+//           }}
+//         />
+//       </View>
+//       <View
+//         style={{
+//           width: "80%",
+//           height: 2,
+//           backgroundColor: colors.BLACK_COLOR,
+//           position: "absolute",
+//           bottom: 0,
+//           right: -3,
+//         }}
+//       />
+//     </View>
+//   );
+// };
 
 export default Dashboard;
 
@@ -356,6 +527,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "orange",
     position: "relative",
+  },
+  arrowLeft: {
+    position: "absolute",
+    top: 10,
+    left: 20,
   },
   flexbox: {
     display: "flex",
@@ -369,21 +545,6 @@ const styles = StyleSheet.create({
   },
   alignCenter: {
     justifyContent: "center",
-  },
-  ludoTextContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  ludoText: {
-    fontWeight: "bold",
-    fontStyle: "normal",
-    fontSize: 30,
-    lineHeight: 40,
-    letterSpacing: 0.5,
-    textAlign: "center",
-    marginTop: 10,
-    color: colors.WHITE_COLOR,
   },
   upperLudoContainer: {
     display: "flex",
@@ -402,13 +563,17 @@ const styles = StyleSheet.create({
     top: 50,
     left: 20,
   },
+  ludoBoxesDemo: {
+    top: 50,
+    left: "35%",
+  },
   ludoBoxes2: {
     top: 50,
     right: 20,
   },
   ludoBoxes3: {
-    top: "43%",
-    left: "38%",
+    top: "41%",
+    left: "35%",
   },
   ludoBoxes4: {
     bottom: 75,
@@ -420,9 +585,10 @@ const styles = StyleSheet.create({
   },
   ludoPathway1: {
     flex: 1,
-    top: "43%",
+    position: "relative",
+    // top: "43%",
     width: "100%",
-    borderWidth: 2,
+    // borderWidth: 2,
   },
   ludoPathway2: {
     height: "100%",
@@ -464,39 +630,11 @@ const styles = StyleSheet.create({
   ludoDots: {
     width: 5,
     height: 5,
-    borderRadius: "50%",
+    borderRadius: 5,
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: colors.WHITE_COLOR,
     backgroundColor: colors.BLACK_COLOR,
-  },
-  ludoCoins: {
-    width: 15,
-    height: 20,
-    borderBottomRightRadius: 30,
-    borderBottomLeftRadius: 30,
-    borderTopRightRadius: 8,
-    borderTopLeftRadius: 8,
-    position: "relative",
-    borderWidth: 2,
-    borderStyle: "solid",
-    borderColor: colors.BLACK_COLOR,
-  },
-  ludoCoinInnerDot: {
-    width: 2,
-    height: 2,
-    backgroundColor: colors.BLACK_COLOR,
-    position: "absolute",
-    borderRadius: 2,
-    overflow: "hidden",
-  },
-  ludoCoinInnerDot1: {
-    top: 3,
-    left: 1,
-  },
-  ludoCoinInnerDot2: {
-    top: 3,
-    right: 1,
   },
 });
 
